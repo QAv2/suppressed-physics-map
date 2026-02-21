@@ -1,6 +1,6 @@
 /* ============================================================
    The Disclosure Files — WEF Transformation Map Styles
-   140 nodes · 8 branches
+   147 nodes · 9 branches
    ============================================================ */
 
 *, *::before, *::after {
@@ -317,6 +317,28 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 14px;
+}
+
+.panel-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.keyword-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(58, 124, 165, 0.15);
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.keyword-tag:hover {
+  background: rgba(58, 124, 165, 0.3);
+  color: #fff;
 }
 
 .panel-title {

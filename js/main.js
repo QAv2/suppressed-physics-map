@@ -813,9 +813,19 @@
       }
     }
 
+    var keywordsHtml = "";
+    if (node.keywords && node.keywords.length) {
+      keywordsHtml = '<div class="panel-keywords">';
+      node.keywords.forEach(function(kw) {
+        keywordsHtml += '<span class="keyword-tag" data-keyword="' + escapeHtml(kw) + '">' + escapeHtml(kw) + '</span>';
+      });
+      keywordsHtml += '</div>';
+    }
+
     panelInner.innerHTML =
       '<div class="panel-branch-tag" style="background:' + branch.color + '22;color:' + branch.color + '">' + escapeHtml(branch.label) + '</div>' +
       '<h2 class="panel-title">' + escapeHtml(node.title) + '</h2>' +
+      keywordsHtml +
       '<p class="panel-description">' + linkifyDescription(desc, nodeId) + '</p>' +
       evidenceHtml +
       chipsHtml +
@@ -846,6 +856,20 @@
         toggleBtn.textContent = expanded ? "Show fewer sources" : "Show " + (total - sourceLimit) + " more sources";
       });
     }
+
+    // Keyword tag click → populate search
+    panelInner.querySelectorAll(".keyword-tag").forEach(function (tag) {
+      tag.addEventListener("click", function () {
+        var kw = tag.getAttribute("data-keyword");
+        if (!kw) return;
+        var container = document.querySelector(".search-container");
+        var input = container.querySelector("input");
+        container.classList.add("open");
+        input.value = kw;
+        input.dispatchEvent(new Event("input"));
+        input.focus();
+      });
+    });
   }
 
   function showBranchPanel(bKey) {
@@ -1180,6 +1204,12 @@
         if (n.evidence) {
           for (var i = 0; i < n.evidence.length; i++) {
             if ((n.evidence[i].text || "").toLowerCase().indexOf(q) >= 0) return true;
+          }
+        }
+        // Search keywords
+        if (n.keywords) {
+          for (var i = 0; i < n.keywords.length; i++) {
+            if (n.keywords[i].toLowerCase().indexOf(q) >= 0) return true;
           }
         }
         return false;

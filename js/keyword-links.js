@@ -234,6 +234,21 @@ var KEYWORD_LINKS = [
   ["Waco", "waco-ruby-ridge"],
 
   // ── QA / scientific framework terms ──────────────────────────
+  ["Reciprocal System", "rs-larson-foundation"],
+  ["Dewey Larson", "rs-larson-foundation"],
+  ["Bruce Peret", "rs2-peret-nehru"],
+  ["RS2", "rs2-peret-nehru"],
+  ["Qualia Algebra", "qa-convergence"],
+  ["Antiquatis", "rs-antiquatis-sanctuary"],
+  ["Sanctuary Project", "rs-antiquatis-sanctuary"],
+  ["DIRDs", "tech-suppressed-physics"],
+  ["Alcubierre", "tech-suppressed-physics"],
+  ["Hal Puthoff", "tech-suppressed-physics"],
+  ["KVK Nehru", "rs2-peret-nehru"],
+  ["ISUS", "rs-community-split"],
+  ["Gopi Vijaya", "rs-antiquatis-sanctuary"],
+  ["scalar motion", "rs-larson-foundation"],
+  ["dimensional emergence", "dimensional-emergence"],
 
   // ── Consciousness traditions / terms ─────────────────────────
   ["Eleusis", "ritual-mystery-schools"],
