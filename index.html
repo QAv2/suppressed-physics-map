@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Disclosure Files — Transformation Map</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- SVG Canvas -->
+  <svg id="map-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+  <!-- Header -->
+  <div class="map-header">
+    <h1>The Disclosure Files</h1>
+    <p>Mapping what was hidden in plain sight &mdash; 140 nodes &middot; 8 branches</p>
+  </div>
+
+  <!-- Evidence Tier Legend -->
+  <div class="legend">
+    <div class="legend-title">Evidence Tiers</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> Documented</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> Credible</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> Inference</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#f87171"></span> Speculative</div>
+  </div>
+
+
+  <!-- Search -->
+  <div class="search-container">
+    <div class="search-input-wrap">
+      <span class="search-icon">&#x1F50D;</span>
+      <input type="text" placeholder="Search nodes... (press / to open)" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="search-results"></div>
+  </div>
+
+  <!-- Content Panel -->
+  <div class="panel">
+    <button class="panel-close">&times;</button>
+    <div class="panel-inner"></div>
+  </div>
+
+
+  <!-- Bottom Toolbar -->
+  <div class="toolbar">
+    <button id="btn-reset"><span class="btn-label">Reset View</span></button>
+    <div class="separator"></div>
+    <button id="btn-zoom-in"><span class="btn-label">Zoom In</span></button>
+    <button id="btn-zoom-out"><span class="btn-label">Zoom Out</span></button>
+    <div class="separator"></div>
+    <button id="btn-toggle-connections"><span class="btn-label">Connections</span></button>
+    <div class="separator"></div>
+    <button id="btn-search"><span class="btn-label">Search</span></button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/keyword-links.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
