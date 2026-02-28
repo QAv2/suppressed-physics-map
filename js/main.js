@@ -21,6 +21,7 @@
   var DIM_OPACITY = 0.08;
   var LINE_DEFAULT_OPACITY = 0.12;
   var LINE_HIGHLIGHT_OPACITY = 0.65;
+  var HIGHLIGHT_BRANCH = "physics"; // ambient glow branch
 
   // ---- State ----
   var state = {
@@ -643,10 +644,12 @@
   }
 
   function dimAll() {
-    // Dim all nodes
+    // Dim all nodes (remove ambient glow filters too)
     Object.keys(state.nodeElements).forEach(function (id) {
       var el = state.nodeElements[id];
       el.style.opacity = DIM_OPACITY;
+      el.removeAttribute("filter");
+      el.classList.remove("physics-ambient");
     });
     Object.keys(state.labelElements).forEach(function (id) {
       var el = state.labelElements[id];
@@ -691,6 +694,74 @@
       } else {
         s.setAttribute("stroke", "rgba(211,211,211,0.12)");
         s.setAttribute("stroke-opacity", "0.12");
+      }
+    });
+    // Restore ambient physics glow
+    applyPhysicsAmbient();
+  }
+
+  // ---- Ambient highlight for the physics branch ----
+  // Gives the Convergent Physics branch a subtle glow in the default view
+  // so it stands out as what's unique to this map vs disclosure-files.
+  function applyPhysicsAmbient() {
+    var bKey = HIGHLIGHT_BRANCH;
+    var branch = BRANCHES[bKey];
+    if (!branch) return;
+    var color = branch.color;
+
+    // Branch category node — apply glow filter + animation
+    var catEl = state.nodeElements["branch-" + bKey];
+    if (catEl) {
+      catEl.setAttribute("filter", "url(#glow-" + bKey + ")");
+      catEl.classList.add("physics-ambient");
+    }
+
+    // Branch label — slightly brighter
+    var catLabel = state.labelElements["branch-" + bKey];
+    if (catLabel) {
+      catLabel.setAttribute("fill", color);
+      catLabel.style.opacity = "1";
+    }
+
+    // Subtopic nodes — higher fill-opacity and glow
+    var physicsNodeIds = branchNodes[bKey].map(function (n) { return n.id; });
+    physicsNodeIds.forEach(function (nId) {
+      var group = state.nodeElements[nId];
+      if (!group) return;
+      var circle = group.querySelector(".topic-circle");
+      if (circle) {
+        circle.setAttribute("fill-opacity", "0.28");
+        circle.setAttribute("stroke-opacity", "0.85");
+      }
+      group.setAttribute("filter", "url(#glow-" + bKey + ")");
+    });
+
+    // Spoke line — brighter
+    state.spokePaths.forEach(function (s) {
+      if (s.getAttribute("data-branch") === bKey) {
+        if (s.classList.contains("spoke-ext")) {
+          s.setAttribute("stroke", color);
+          s.setAttribute("stroke-opacity", "0.12");
+        } else {
+          s.setAttribute("stroke", color);
+          s.setAttribute("stroke-opacity", "0.3");
+        }
+      }
+    });
+
+    // Connections where both endpoints are in the physics branch — subtle color
+    state.connectionPaths.forEach(function (path) {
+      var from = path.getAttribute("data-from");
+      var to = path.getAttribute("data-to");
+      var fromPhys = physicsNodeIds.indexOf(from) >= 0;
+      var toPhys = physicsNodeIds.indexOf(to) >= 0;
+      if (fromPhys && toPhys) {
+        path.setAttribute("stroke", color);
+        path.setAttribute("stroke-opacity", "0.25");
+        path.setAttribute("stroke-width", "1.2");
+      } else if (fromPhys || toPhys) {
+        path.setAttribute("stroke", color);
+        path.setAttribute("stroke-opacity", "0.15");
       }
     });
   }
@@ -1318,6 +1389,7 @@
     clearSVG();
     computePositions();
     buildSVG();
+    applyPhysicsAmbient();
     resetView();
   }
 

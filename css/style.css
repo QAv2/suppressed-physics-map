@@ -584,6 +584,16 @@ html, body {
   }
 }
 
+/* ---- Ambient Physics Branch Glow ---- */
+@keyframes physics-breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.physics-ambient {
+  animation: physics-breathe 4s ease-in-out infinite;
+}
+
 @media (max-width: 480px) {
   .legend {
     display: none !important;
