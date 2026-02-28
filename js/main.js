@@ -701,55 +701,67 @@
   }
 
   // ---- Ambient highlight for the physics branch ----
-  // Gives the Convergent Physics branch a subtle glow in the default view
-  // so it stands out as what's unique to this map vs disclosure-files.
+  // Fully illuminates the Convergent Physics branch in the default view
+  // so it immediately draws attention as what's unique to this map.
   function applyPhysicsAmbient() {
     var bKey = HIGHLIGHT_BRANCH;
     var branch = BRANCHES[bKey];
     if (!branch) return;
     var color = branch.color;
+    var physicsNodeIds = branchNodes[bKey].map(function (n) { return n.id; });
 
-    // Branch category node — apply glow filter + animation
+    // Branch category node — full glow + animation
     var catEl = state.nodeElements["branch-" + bKey];
     if (catEl) {
       catEl.setAttribute("filter", "url(#glow-" + bKey + ")");
       catEl.classList.add("physics-ambient");
+      var catCircle = catEl.querySelector(".branch-circle");
+      if (catCircle) {
+        catCircle.setAttribute("fill-opacity", "0.45");
+        catCircle.setAttribute("stroke-opacity", "1");
+      }
     }
 
-    // Branch label — slightly brighter
+    // Branch label — full brightness
     var catLabel = state.labelElements["branch-" + bKey];
     if (catLabel) {
-      catLabel.setAttribute("fill", color);
+      catLabel.setAttribute("fill", "#ffffff");
       catLabel.style.opacity = "1";
     }
 
-    // Subtopic nodes — higher fill-opacity and glow
-    var physicsNodeIds = branchNodes[bKey].map(function (n) { return n.id; });
+    // Subtopic nodes — full selected-state intensity + glow
     physicsNodeIds.forEach(function (nId) {
       var group = state.nodeElements[nId];
       if (!group) return;
       var circle = group.querySelector(".topic-circle");
       if (circle) {
-        circle.setAttribute("fill-opacity", "0.28");
-        circle.setAttribute("stroke-opacity", "0.85");
+        circle.setAttribute("fill-opacity", "0.5");
+        circle.setAttribute("stroke-opacity", "1");
+        circle.setAttribute("stroke-width", "2");
       }
       group.setAttribute("filter", "url(#glow-" + bKey + ")");
+
+      // Labels — full white
+      var lbl = state.labelElements[nId];
+      if (lbl) {
+        lbl.setAttribute("fill", "rgba(255,255,255,0.9)");
+      }
     });
 
-    // Spoke line — brighter
+    // Spoke line — fully lit in branch color
     state.spokePaths.forEach(function (s) {
       if (s.getAttribute("data-branch") === bKey) {
+        s.setAttribute("stroke", color);
         if (s.classList.contains("spoke-ext")) {
-          s.setAttribute("stroke", color);
-          s.setAttribute("stroke-opacity", "0.12");
-        } else {
-          s.setAttribute("stroke", color);
           s.setAttribute("stroke-opacity", "0.3");
+        } else {
+          s.setAttribute("stroke-opacity", "0.5");
+          s.setAttribute("stroke-width", "2.5");
         }
       }
     });
 
-    // Connections where both endpoints are in the physics branch — subtle color
+    // Connections — full branch color at highlight intensity
     state.connectionPaths.forEach(function (path) {
       var from = path.getAttribute("data-from");
       var to = path.getAttribute("data-to");
@@ -757,11 +769,12 @@
       var toPhys = physicsNodeIds.indexOf(to) >= 0;
       if (fromPhys && toPhys) {
         path.setAttribute("stroke", color);
-        path.setAttribute("stroke-opacity", "0.25");
-        path.setAttribute("stroke-width", "1.2");
+        path.setAttribute("stroke-opacity", LINE_HIGHLIGHT_OPACITY);
+        path.setAttribute("stroke-width", "1.8");
       } else if (fromPhys || toPhys) {
         path.setAttribute("stroke", color);
-        path.setAttribute("stroke-opacity", "0.15");
+        path.setAttribute("stroke-opacity", "0.35");
+        path.setAttribute("stroke-width", "1.2");
       }
     });
   }
