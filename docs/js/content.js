@@ -113,8 +113,6 @@ export const DOC_SECTIONS = [
     title: 'Sealed Capsule',
     open: true,
     body: `
-<p><em>If you found this, you looked up.</em></p>
-
 <p>This page is a time capsule — sealed inside a 3D archive, linked from a portal hidden in the ceiling light. The model you're looking at is a bench-scale prototype of a device designed to test whether three-axis electromagnetic drive of a mercury sphere produces any measurable anomaly beyond standard physics predictions.</p>
 
 <p>Everything here is real engineering. Every claim is tagged with its rigor category: <span class="rigor-tag rigor-verified">Verified</span> means textbook physics, independently calculable. <span class="rigor-tag rigor-model">Model</span> means simulator prediction with known limitations. <span class="rigor-tag rigor-hypothesis">Hypothesis</span> means untested — the point of building.</p>
